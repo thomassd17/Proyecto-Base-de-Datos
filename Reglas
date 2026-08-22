@@ -1,5 +1,4 @@
-##  Reglas de Negocio (Business Rules)
-
+##  Reglas de Negocio 
 ### R-01: Control Unificado de Inventario (Sin Almacén Secundario)
 * La tienda no dispone de depósito ni almacén independiente. El atributo `stock_estante` representa la totalidad de la existencia física real de cada `PRODUCTO`.
 
