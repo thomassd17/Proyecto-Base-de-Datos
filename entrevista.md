@@ -98,3 +98,7 @@ Entidad intermedia para resolver la relación $N:M$ entre `VENTA` y `PRODUCTO`.
                                                     (1)
                                                      |
                                                [ PRODUCTO ]
+
+![Diagrama Entidad Relación]
+<img width="603" height="1075" alt="DiagramaER" src="https://github.com/user-attachments/assets/7895eb9b-e1af-4ef1-ac8b-921cfa523273" />
+
