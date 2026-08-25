@@ -18,14 +18,14 @@ El objetivo del proyecto es diseñar la base de datos relacional que permita aut
 **Entrevistador:** Estudiante de Ingeniería de Sistemas  
 **Entrevistada:** Sra. Natalia Guzmán (Propietaria de Tienda "Natalia")  
 
-* **Entrevistador:** Hola abuela Natalia, gracias por darme este tiempo. Para un proyecto de la universidad necesito analizar un negocio real para diseñarle una base de datos. Quería preguntarte, ¿cómo manejas actualmente la tienda y el registro de tus artículos?
-* **Sra. Natalia Guzmán:** Hola hijito. Mira, yo tengo mi tiendita donde vendo de todo un poco: víveres, artículos de papelería, aseo y cosas variadas. Para el control, la verdad es que manejo todo en un cuaderno borrador. Cuando voy a comprar mercadería al mercado Chiriguano o a los comerciales del centro, anoto ahí cuánto me costó cada producto para saber a cuánto debo vender la unidad.
-* **Entrevistador:** Entiendo. ¿Y qué datos de los productos necesitas saber o revisar siempre para que no haya confusiones?
-* **Sra. Natalia Guzmán:** Lo importante para mí es el nombre del producto, la marca o presentación, la categoría, el precio al que lo compré en el mercado, el precio al que lo voy a vender al público y la cantidad que me queda exhibida en los estantes. Como la tienda es pequeña y no tengo depósito, todo lo que tengo está directo en los estantes. A veces no sé si algún producto ya se terminó hasta que me fijo bien en las repisas.
-* **Entrevistador:** Claro, eso se resuelve controlando la cantidad de unidades en tiempo real. En cuanto a las ventas diarias, ¿cómo realizas el cobro y el registro de lo que compran los clientes?
-* **Sra. Natalia Guzmán:** Aquí toda venta es al contado. Cobro en efectivo o también mediante pago por QR. No entrego ningún tipo de comprobante, ni factura ni notas de venta impresas. La gente entra, pide sus productos, yo sumo los precios en la calculadora, me pagan y listo. Lo que me gustaría es saber al final del día cuánto vendí en total, cuánto cobré en efectivo, cuánto por QR y qué productos salieron más.
-* **Entrevistador:** Súper claro. Y sobre las compras para surtir la tienda, ¿cómo las realizas?
-* **Sra. Natalia Guzmán:** Yo voy directamente a los mercados mayoristas a comprar al contado todo lo que me hace falta para llenar los estantes. Me serviría mucho que el sistema me avise cuando a un producto le queden pocas unidades en el estante para anotarlo en mi lista antes de ir al mercado.
+## 2. Declaración de la Propietaria (Resumen de Entrevista)
+
+**Entrevistada:** Sra. Natalia Guzmán (Propietaria de Tienda "Natalia")
+
+* **Gestión del negocio:** Vendo víveres, papelería, aseo y cosas variadas. Actualmente anoto todo en un cuaderno borrador cuando compro mercadería en los mercados mayoristas para saber a cuánto vender cada unidad.
+* **Datos de los productos:** Necesito registrar el nombre del producto, marca, categoría, precio de compra, precio de venta y la cantidad en los estantes. Como no tengo depósito, todo está directo en las repisas.
+* **Ventas y cobros:** Todas las ventas son al contado, cobradas en efectivo o por QR. No entrego facturas ni comprobantes. Me gustaría saber al final del día el total vendido, cuánto cobré por efectivo, cuánto por QR y qué productos se vendieron más.
+* **Reabastecimiento:** Compro la mercadería al contado en mercados mayoristas. Necesito que el sistema me avise cuando queden pocas unidades de un producto para incluirlo en mi lista de compras.
 
 ---
 
