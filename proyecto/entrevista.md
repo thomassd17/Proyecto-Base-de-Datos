@@ -81,4 +81,4 @@ El objetivo del proyecto es diseñar la base de datos relacional que permita aut
 
 ## 7. Mapeo Relacional (Modelo Relacional)
 
-*(Pendiente de ejecución según las indicaciones del docente para la siguiente fase del proyecto).*
+
