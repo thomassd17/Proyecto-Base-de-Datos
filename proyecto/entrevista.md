@@ -75,7 +75,8 @@ El objetivo del proyecto es diseñar la base de datos relacional que permita aut
 
 ## 6. Diagrama Entidad-Relación (DER)
 
-<img width="603" height="1075" alt="DiagramaER" src="https://github.com/user-attachments/assets/7895eb9b-e1af-4ef1-ac8b-921cfa523273" />
+<img width="802" height="702" alt="image" src="https://github.com/user-attachments/assets/039e7d79-a73f-405e-a0a7-54582bb804d5" />
+
 
 ---
 
