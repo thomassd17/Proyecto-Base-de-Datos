@@ -69,7 +69,8 @@
 * **Relaciones (Rombos):** `TIENE`, `POSEE`, `INCLUYE`.
 * **Atributos (Elipses):** Representan los campos de cada entidad, destacando los identificadores clave subrayados (`ID METODO`, `ID VENTA`, `ID DETALLE`, `ID PRODUCTO`).
 
-<img width="802" height="702" alt="image" src="https://github.com/user-attachments/assets/039e7d79-a73f-405e-a0a7-54582bb804d5" />
+<img width="802" height="702" alt="DiagramER drawio" src="https://github.com/user-attachments/assets/4597009a-9da9-46bb-8d45-937e5c2fd9c7" />
+
 
 ---
 
