@@ -88,4 +88,5 @@
 * **Relaciones (Rombos):** `REALIZA`, `GUARDA`, `TIENE`, `POSEE`, `INCLUYE`.
 * **Atributos (Elipses):** Representan los campos de cada entidad, destacando los identificadores clave PK (subrayados) y las FK para asegurar la trazabilidad.
 
-<img width="802" height="702" alt="DiagramER drawio" src="https://github.com/user-attachments/assets/4597009a-9da9-46bb-8d45-937e5c2fd9c7" />
+<img width="822" height="792" alt="image" src="https://github.com/user-attachments/assets/c6c0f77b-b569-4532-9378-1491c8f7c606" />
+
