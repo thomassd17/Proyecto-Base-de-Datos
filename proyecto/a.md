@@ -69,9 +69,7 @@
 * **Entidad asociativa:** `DETALLE_VENTA` conectando `VENTA` con `PRODUCTO`.
 * **Cardinalidades:** `METODO_PAGO` (1) — (N) `VENTA`; `VENTA` (1) — (N) `DETALLE_VENTA` (N) — (1) `PRODUCTO`.
 
-![Diagrama Entidad Relación](https://github.com/user-attachments/assets/7895eb9b-e1af-4ef1-ac8b-921cfa523273)
-
----
+<img width="802" height="702" alt="image" src="https://github.com/user-attachments/assets/039e7d79-a73f-405e-a0a7-54582bb804d5" />
 
 ## Mapeo Relacional (Modelo Relacional)
 
