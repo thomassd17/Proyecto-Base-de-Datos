@@ -21,7 +21,7 @@ El objetivo del proyecto es diseñar la base de datos relacional que permita aut
 
 **Entrevistada:** Sra. Natalia Guzmán (Propietaria de Tienda "Natalia")
 
-* **Gestión del negocio:** Vendo víveres, papelería, aseo y cosas variadas. Actualmente anoto todo en un cuaderno borrador cuando compro mercadería en los mercados mayoristas para saber a cuánto vender cada unidad.
+* **Gestión del negocio:** Vendo víveres, papelería y cosas variadas. Actualmente anoto todo en un cuaderno borrador cuando compro mercadería en los mercados mayoristas para saber a cuánto vender cada unidad.
 * **Datos de los productos:** Necesito registrar el nombre del producto, marca, categoría, precio de compra, precio de venta y la cantidad en los estantes. Como no tengo depósito, todo está directo en las repisas.
 * **Ventas y cobros:** Todas las ventas son al contado, cobradas en efectivo o por QR. No entrego facturas ni comprobantes. Me gustaría saber al final del día el total vendido, cuánto cobré por efectivo, cuánto por QR y qué productos se vendieron más.
 * **Reabastecimiento:** Compro la mercadería al contado en mercados mayoristas. Necesito que el sistema me avise cuando queden pocas unidades de un producto para incluirlo en mi lista de compras.
