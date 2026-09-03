@@ -69,7 +69,7 @@
 * **Relaciones (Rombos):** `TIENE`, `POSEE`, `INCLUYE`.
 * **Atributos (Elipses):** Representan los campos de cada entidad, destacando los identificadores clave subrayados (`ID METODO`, `ID VENTA`, `ID DETALLE`, `ID PRODUCTO`).
 
-![Diagrama Entidad Relación]<img width="802" height="702" alt="image" src="https://github.com/user-attachments/assets/039e7d79-a73f-405e-a0a7-54582bb804d5" />
+<img width="802" height="702" alt="image" src="https://github.com/user-attachments/assets/039e7d79-a73f-405e-a0a7-54582bb804d5" />
 
 ---
 
