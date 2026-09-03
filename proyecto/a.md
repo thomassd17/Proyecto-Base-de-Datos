@@ -9,68 +9,69 @@
 
 **Suposiciones:**
 1. No se registra información de los compradores (sin entidad CLIENTE) debido a la naturaleza de venta rápida al por menor.
-2. El atributo `stock_estante` representa el 100% de la existencia física del producto (ausencia de almacén secundario).
-3. Una venta puede contener varios productos y un producto puede comercializarse en múltiples ventas (relación N:M resolviéndose mediante la entidad asociativa `DETALLE_VENTA`).
-4. Los precios de venta unitarios se fijan en el momento del registro en `DETALLE_VENTA` para mantener el historial histórico ante variaciones de precios.
+2. El atributo `STOCK ESTANTE` representa el 100% de la existencia física del producto (ausencia de almacén secundario).
+3. Una venta puede contener varios productos y un producto puede comercializarse en múltiples ventas (relación N:M resolviéndose mediante la entidad intermedia `DETALLE VENTA`).
+4. Los precios de venta unitarios se fijan en el momento del registro en `DETALLE VENTA` para mantener el historial histórico ante variaciones de precios.
 
 ---
 
 **Entidades y atributos (modelo conceptual):**
 
-* **PRODUCTO**
-  * `id_producto` (PK) — INTEGER
-  * `nombre` VARCHAR(100) NOT NULL
-  * `marca` VARCHAR(50)
-  * `categoria` VARCHAR(50)
-  * `precio_compra` DECIMAL(8,2) NOT NULL CHECK (precio_compra >= 0)
-  * `precio_venta` DECIMAL(8,2) NOT NULL CHECK (precio_venta >= 0)
-  * `stock_estante` INTEGER NOT NULL CHECK (stock_estante >= 0)
-  * `stock_minimo` INTEGER NOT NULL DEFAULT 5
-
-* **METODO_PAGO**
-  * `id_metodo` (PK) — INTEGER
-  * `descripcion` VARCHAR(30) CHECK (descripcion IN ('Efectivo', 'QR'))
+* **METODO_DE_PAGO**
+  * `ID METODO` (PK)
+  * `DESCRIPCION`
 
 * **VENTA**
-  * `id_venta` (PK) — INTEGER
-  * `fecha_hora` DATETIME DEFAULT CURRENT_TIMESTAMP
-  * `monto_total` DECIMAL(10,2) NOT NULL CHECK (monto_total >= 0)
-  * `id_metodo` (FK → METODO_PAGO)
+  * `ID VENTA` (PK)
+  * `FECHA_HORA`
+  * `MONTO_TOTAL`
 
-* **DETALLE_VENTA** (entidad asociativa para N:M)
-  * `id_detalle` (PK) — INTEGER
-  * `id_venta` (FK → VENTA)
-  * `id_producto` (FK → PRODUCTO)
-  * `cantidad` INTEGER NOT NULL CHECK (cantidad > 0)
-  * `precio_unitario` DECIMAL(8,2) NOT NULL
-  * `subtotal` DECIMAL(10,2) NOT NULL
+* **DETALLE VENTA**
+  * `ID DETALLE` (PK)
+  * `CANTIDAD`
+  * `PRECIO UNITARIO`
+  * `SUBTOTAL`
+
+* **PRODUCTO**
+  * `ID PRODUCTO` (PK)
+  * `NOMBRE`
+  * `MARCA`
+  * `CATEGORIA`
+  * `PRECIO VENTA`
+  * `PRECIO COMPRA`
+  * `STOCK ESTANTE`
+  * `STOCK MIN`
 
 ---
 
 **Relaciones y cardinalidades (justificación):**
 
-* **METODO_PAGO 1 — N VENTA**
-  * Un método de pago (Efectivo o QR) puede ser utilizado en muchas ventas; cada venta se liquida mediante un único método de pago.
+* **METODO_DE_PAGO (1..1) — TIENE — (1..N) VENTA**
+  * Un método de pago puede utilizarse en una o muchas ventas; cada venta requiere obligatoriamente un único método de pago.
 
-* **VENTA N — M PRODUCTO (implementada con DETALLE_VENTA)**
-  * Una venta puede incluir uno o varios productos; un producto puede ser vendido en distintas ventas a lo largo del tiempo.
+* **VENTA (1..1) — POSEE — (1..N) DETALLE VENTA**
+  * Una venta posee uno o varios detalles de venta; cada detalle pertenece a una única venta.
+
+* **PRODUCTO (1..1) — INCLUYE — (1..N) DETALLE VENTA**
+  * Un producto puede ser incluido en uno o varios detalles de venta; cada detalle corresponde a un único producto.
 
 ---
 
 **Restricciones de negocio importantes:**
-1. **Validación de stock disponible:** Al registrar un item en `DETALLE_VENTA`, se debe verificar que la `cantidad` solicitada sea menor o igual al `stock_estante` actual del `PRODUCTO`.
-2. **Actualización automática de inventario:** Toda inserción en `DETALLE_VENTA` debe descontar automáticamente del valor de `stock_estante` en `PRODUCTO`.
-3. **Alerta de reabastecimiento:** Si `stock_estante` <= `stock_minimo`, el producto se categoriza en estado crítico para la lista de reposición mayorista.
+1. **Validación de stock disponible:** Al registrar un ítem en `DETALLE VENTA`, se debe verificar que la `CANTIDAD` solicitada sea menor o igual al `STOCK ESTANTE` actual del `PRODUCTO`.
+2. **Actualización automática de inventario:** Toda inserción en `DETALLE VENTA` descontará automáticamente las unidades del valor de `STOCK ESTANTE` en `PRODUCTO`.
+3. **Alerta de reabastecimiento:** Si `STOCK ESTANTE` es menor o igual a `STOCK MIN`, el producto debe ser notificado para reposición mayorista.
 
 ---
 
 **Representación para DER:**
-* **Entidades:** Rectángulos para `PRODUCTO`, `METODO_PAGO` y `VENTA`.
-* **Entidad asociativa:** `DETALLE_VENTA` conectando `VENTA` con `PRODUCTO`.
-* **Cardinalidades:** `METODO_PAGO` (1) — (N) `VENTA`; `VENTA` (1) — (N) `DETALLE_VENTA` (N) — (1) `PRODUCTO`.
+* **Entidades (Rectángulos):** `METODO_DE_PAGO`, `VENTA`, `DETALLE VENTA`, `PRODUCTO`.
+* **Relaciones (Rombos):** `TIENE`, `POSEE`, `INCLUYE`.
+* **Atributos (Elipses):** Representan los campos de cada entidad, destacando los identificadores clave subrayados (`ID METODO`, `ID VENTA`, `ID DETALLE`, `ID PRODUCTO`).
 
-<img width="802" height="702" alt="image" src="https://github.com/user-attachments/assets/039e7d79-a73f-405e-a0a7-54582bb804d5" />
+![Diagrama Entidad Relación](diagrama_er.png)
+
+---
 
 ## Mapeo Relacional (Modelo Relacional)
 
-*(Pendiente de ejecución)*
