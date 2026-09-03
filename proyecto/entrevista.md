@@ -13,8 +13,7 @@ El objetivo del proyecto es diseñar la base de datos relacional que permita aut
 ---
 
 ## 2. Transcripción de la Entrevista (Levantamiento de Información)
-
-**Fecha:** 22 de agosto de 2026  
+ 
 **Entrevistador:** Estudiante de Ingeniería de Sistemas  
 **Entrevistada:** Sra. Natalia Guzmán (Propietaria de Tienda "Natalia")  
 
