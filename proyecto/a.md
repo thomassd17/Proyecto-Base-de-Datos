@@ -3,7 +3,7 @@
 **Título:** Sistema de Gestión de Inventario y Ventas — Tienda "Natalia"
 
 **Narración del cliente:**
-"Soy la Sra. Natalia Guzmán, propietaria de la Tienda Natalia. Vendo víveres, papelería, productos de aseo y artículos del hogar. Actualmente anoto todo en un cuaderno borrador cuando voy a comprar mercadería a los mercados mayoristas para saber a cuánto debo vender la unidad. Necesito un sistema para controlar el stock de los productos que tengo exhibidos en los estantes (no tengo depósito). Necesito registrar el nombre, marca, categoría, precio de compra, precio de venta y las unidades en estante. Toda venta es al contado y se paga en efectivo o por QR, sin emisión de facturas. Al final del día quiero saber cuánto vendí en total, cuánto cobré en efectivo, cuánto por QR y qué productos tuvieron más salida. Además, necesito que el sistema me avise cuando a un producto le queden pocas unidades para incluirlo en mi lista de compras."
+"Soy la Sra. Natalia Guzmán, propietaria de la Tienda Natalia. Vendo víveres, papelería y artículos variados. Actualmente anoto todo en un cuaderno borrador cuando voy a comprar mercadería a los mercados mayoristas para saber a cuánto debo vender la unidad. Necesito un sistema para controlar el stock de los productos que tengo exhibidos en los estantes (no tengo depósito). Necesito registrar el nombre, marca, categoría, precio de compra, precio de venta y las unidades en estante. Toda venta es al contado y se paga en efectivo o por QR, sin emisión de facturas. Al final del día quiero saber cuánto vendí en total, cuánto cobré en efectivo, cuánto por QR y qué productos tuvieron más salida. Además, necesito que el sistema me avise cuando a un producto le queden pocas unidades para incluirlo en mi lista de compras."
 
 ---
 
