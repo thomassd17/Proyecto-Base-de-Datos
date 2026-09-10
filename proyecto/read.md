@@ -86,11 +86,3 @@ El siguiente diagrama representa las entidades, atributos principales, claves fo
 
 ---
 
-## 📁 Estructura del Repositorio
-
-```text
-.
-├── entrevista.md      # Transcripción del cliente, suposiciones y modelo conceptual
-├── diagrama_er.drawio  # Archivo editable en Draw.io
-├── diagrama_er.png     # Exportación gráfica del DER
-└── README.md          # Documentación general del repositorio
