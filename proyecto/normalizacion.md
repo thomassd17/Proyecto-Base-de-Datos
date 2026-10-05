@@ -40,22 +40,9 @@ Eliminación de Transitividades:
 |En VENTA_2FN: ID_VENTA -> CLIENTE y ID_VENTA -> METODO_PAGO. Se desacoplan las entidades CLIENTE y METODO_DE_PAGO.
 |En PRODUCTO_2FN: ID_PRODUCTO -> ALMACEN. Se desacopla la entidad ALMACEN.
 
-Esquema Logico Normalizado 3FN
+🗄️ Entidades Resultantes en 3FN
 
-[ CLIENTE ] (ID_CLIENTE [PK], NOMBRE)
-     │
-     └──(1:N)──> [ VENTA ] (ID_VENTA [PK], FECHA_HORA, MONTO_TOTAL, ID_CLIENTE [FK], ID_METODO [FK])
-                     │                                                      ▲
-                     │                                                      │
-[ METODO_DE_PAGO ] ──┘(1:N)                                                │
-                                                                            │
-[ DETALLE_VENTA ] (ID_DETALLE [PK], ID_VENTA [FK], ID_PRODUCTO [FK], CANTIDAD, PRECIO_UNITARIO, SUBTOTAL)
-     ▲
-     │
-     └──(1:N)── [ PRODUCTO ] (ID_PRODUCTO [PK], NOMBRE, MARCA, CATEGORIA, PRECIO_VENTA, PRECIO_COMPRA, STOCK_ESTANTE, STOCK_ALMACEN, STOCK_MIN, ID_ALMACEN [FK])
-                     ▲
-                     │
-[ ALMACEN ] ─────────┘(1:N) (ID_ALMACEN [PK], NOMBRE_ALMACEN)
+<img width="691" height="543" alt="image" src="https://github.com/user-attachments/assets/58d8e070-3ab7-463c-9e13-f5c43ebc0b47" />
 
 
 📌 Justificación Técnica de Desnormalización
