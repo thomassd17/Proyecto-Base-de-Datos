@@ -24,7 +24,7 @@ Sistema de control de inventario y registro de ventas enfocado en comercios mino
 
 ---
 
-## 📊 Modelo Entidad-Relación (DER - Notación Chen)
+## 📊 Modelo Entidad-Relación (DER )
 
 El siguiente diagrama representa las entidades, atributos principales, claves foráneas (FK) y cardinalidades del sistema:
 
