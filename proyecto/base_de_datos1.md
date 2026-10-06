@@ -89,3 +89,6 @@
 * **Atributos (Elipses):** Representan los campos de cada entidad, destacando los identificadores clave PK (subrayados) y las FK para asegurar la trazabilidad.
 
 <img width="822" height="792" alt="image" src="https://github.com/user-attachments/assets/2cd3d356-e048-4f07-801c-ed5c7a30068d" />
+
+<img width="756" height="963" alt="image" src="https://github.com/user-attachments/assets/36a32a8a-0e97-4c5f-924c-f76003c16fb1" />
+
