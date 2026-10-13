@@ -1,4 +1,4 @@
-# 📐 Proceso de Normalización — Tienda "Natalia"
+## 📐 Proceso de Normalización — Tienda "Natalia"
 **Proceso de normalización aplicado a la base de datos de la Tienda "Natalia", pasando por la Forma No Normalizada (0FN) hasta la Tercera Forma Normal (3FN) para eliminar redundancias y anomalías de actualización.**
 
 **0FN (Forma No Normalizada) :**
@@ -37,7 +37,7 @@ Tabla VENTA_2FN
 
 Eliminación de Transitividades:
 |En VENTA_2FN: ID_VENTA -> CLIENTE y ID_VENTA -> METODO_PAGO. Se desacoplan las entidades CLIENTE y METODO_DE_PAGO.
-|En PRODUCTO_2FN: ID_PRODUCTO -> ALMACEN. Se desacopla la entidad ALMACEN.
+|En PRODUCTO_2FN: ID_PRODUCTO -> ALMACEN. Se desacopla la entidad ALMACEN; PRODUCTO conserva ID_ALMACEN como clave foránea.
 
 **🗄️ Entidades Resultantes en 3FN**
 
@@ -46,3 +46,9 @@ Eliminación de Transitividades:
 
 **📌 Justificación Técnica de Desnormalización**
 La presencia del campo PRECIO_UNITARIO en la entidad DETALLE_VENTA responde a un criterio de desnormalización consciente para el mantenimiento de datos históricos. Almacenar este valor en el detalle evita la pérdida o alteración de montos en transacciones pasadas en caso de que el PRECIO_VENTA sufra modificaciones futuras en el catálogo de la tabla PRODUCTO.
+
+**📌 Otros Atributos Derivados Conservados**
+SUBTOTAL (CANTIDAD × PRECIO_UNITARIO) en DETALLE_VENTA y MONTO_TOTAL (suma de subtotales) en VENTA son atributos calculables, por lo que técnicamente son redundantes. Se conservan de forma consciente para agilizar el reporte de cierre del día (total vendido, efectivo vs QR) y se mantienen consistentes al momento de registrar cada venta.
+
+**📌 Clave de DETALLE_VENTA**
+En 1FN la clave era compuesta (ID_VENTA, ID_PRODUCTO). En el modelo final se usa ID_DETALLE como clave primaria sustituta y se conserva la restricción UNIQUE (ID_VENTA, ID_PRODUCTO), de modo que un producto no se repita en la misma venta. Las dependencias funcionales de la 2FN no cambian.
