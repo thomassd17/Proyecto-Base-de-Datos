@@ -1,92 +1,54 @@
-# 🛒 Sistema de Gestión de Inventario y Ventas — Tienda "Natalia"
+# 📐 Proceso de Normalización — Tienda "Natalia"
+**Proceso de normalización aplicado a la base de datos de la Tienda "Natalia", pasando por la Forma No Normalizada (0FN) hasta la Tercera Forma Normal (3FN) para eliminar redundancias y anomalías de actualización.**
 
-Sistema de control de inventario y registro de ventas enfocado en comercios minoristas de venta directa al contado. El proyecto resuelve la necesidad de trazabilidad de productos entre exhibición y depósito, gestión de clientes sin fines de facturación tributaria y automatización de alertas de reabastecimiento.
+**0FN (Forma No Normalizada) :**
+Estado inicial correspondiente al registro manual en cuaderno borrador. Los productos vendidos en una misma transacción se encuentran agrupados en una sola celda como un atributo multivaluado.
 
----
+<img width="652" height="163" alt="image" src="https://github.com/user-attachments/assets/f2e0d622-a02f-4d33-a6a0-5107d9579b96" />
 
-## 📄 Vista General del Proyecto
+**1FN (Primera Forma Normal) :**
+ |Regla: Se eliminan los grupos repetitivos garantizando valores atómicos por celda y se define una clave primaria compuesta (ID_VENTA, ID_PRODUCTO).
 
-* **Módulo Principal (Core):** Gestión de Ventas diarias al contado (Efectivo y QR), registro de clientes para historial de compras e integración de detalles de venta con precios congelados dinámicamente.
-* **Módulo Secundario:** Gestión de Inventario multinivel (diferenciando `STOCK ESTANTE` y `STOCK ALMACEN`) y alertas de stock mínimo para compras mayoristas.
-* **Materia:** INF312 — Base de Datos I.
+<img width="834" height="177" alt="image" src="https://github.com/user-attachments/assets/32108de9-cff2-496b-967a-f485d032e0b2" />
 
----
+**2FN (Segunda Forma Normal) :**
+|Regla: Estar en 1FN y eliminar dependencias parciales. Todos los atributos no clave deben depender de la totalidad de la clave primaria (ID_VENTA, ID_PRODUCTO).
 
-## 📝 Documentación Conceptual (`base_de_datos1.md`)
+**Dependencias Funcionales Evaluadas :**
+1.ID_VENTA -> FECHA_HORA, CLIENTE, METODO_PAGO, MONTO_TOTAL
+2.ID_PRODUCTO -> NOMBRE_PRODUCTO, ALMACEN
+3.(ID_VENTA, ID_PRODUCTO) -> CANTIDAD, PRECIO_UNITARIO, SUBTOTAL
 
-### Narración del Cliente
-> *"Soy la Sra. Natalia Guzmán, propietaria de la Tienda Natalia. Vendo papelería y artículos variados. Al ser un negocio de venta minorista al por menor, todas nuestras ventas son al contado (efectivo o QR) y no emitimos facturas fiscales. Actualmente anoto todo en un cuaderno borrador cuando voy a comprar mercadería a los mercados mayoristas para saber a cuánto debo vender la unidad. Necesito un sistema para controlar el stock de los productos que tengo exhibidos en los estantes y en el depósito o almacén de respaldo. Para cada venta se debe registrar un cliente para llevar un control e historial de compras, aunque no se emita factura por el tipo de negocio minorista. Necesito registrar el nombre, marca, categoría, precio de compra, precio de venta, las unidades en estante y en almacén. Al final del día quiero saber cuánto vendí en total, cuánto cobré en efectivo, cuánto por QR y qué productos tuvieron más salida. Además, necesito que el sistema me avise cuando a un producto le queden pocas unidades para incluirlo en mi lista de compras."*
+**Estructura Tabular en 2FN :**
+Tabla VENTA_2FN
 
-### Suposiciones del Dominio
-1. **Facturación e Historial:** No se emiten facturas fiscales debido a la modalidad de comercio minorista de venta rápida. Se incluye la entidad `CLIENTE` para mantener la trazabilidad e historial comercial.
-2. **Control de Inventario:** Se dividen las existencias en `STOCK_ESTANTE` (disponibilidad para venta inmediata) y `STOCK_ALMACEN` (depósito de reserva asignado).
-3. **Persistencia de Precios:** Los precios de venta unitarios se fijan en el momento exacto del registro en `DETALLE_VENTA` para asegurar el valor histórico frente a futuras fluctuaciones en `PRODUCTO`.
-4. **Cliente obligatorio y "Cliente mostrador":** Como cada venta exige un cliente (cardinalidad 1..1), se registra un cliente genérico llamado `CLIENTE MOSTRADOR` para las ventas en las que la persona no desea dar sus datos.
-5. **Un solo almacén por producto:** `STOCK_ALMACEN` se guarda dentro de `PRODUCTO`, por lo que cada producto se custodia en un único almacén (`ID_ALMACEN`). Si en el futuro el negocio usara varios depósitos con el mismo producto, se crearía una tabla `INVENTARIO (ID_PRODUCTO, ID_ALMACEN, STOCK)`.
-6. **Atributos derivados:** `SUBTOTAL` (`CANTIDAD` × `PRECIO_UNITARIO`) y `MONTO_TOTAL` (suma de subtotales de la venta) se conservan por practicidad en los reportes de cierre del día, pero se pueden recalcular; el sistema debe mantenerlos consistentes al registrar cada venta.
+<img width="596" height="163" alt="image" src="https://github.com/user-attachments/assets/f625fe71-4551-4fde-9b19-1f0113e06d45" />
 
----
+**Tabla PRODUCTO_2FN**
 
-## 📊 Modelo Entidad-Relación (DER )
+<img width="715" height="177" alt="image" src="https://github.com/user-attachments/assets/a1aa5712-5332-4846-a1ef-6a72d3f36ca6" />
 
-El siguiente diagrama representa las entidades, atributos principales, claves foráneas (FK) y cardinalidades del sistema:
+**Tabla DETALLE_VENTA_2FN**
 
-![Diagrama Entidad Relación](https://github.com/user-attachments/assets/2cd3d356-e048-4f07-801c-ed5c7a30068d)
+<img width="715" height="254" alt="image" src="https://github.com/user-attachments/assets/2e864dbe-f11b-46c3-bb15-51602cf725b3" />
 
----
+**3FN (Tercera Forma Normal)**
+|Regla: Estar en 2FN y eliminar dependencias transitivas entre atributos no clave.
 
-## 🗄️ Esquema de Entidades y Relaciones
+Eliminación de Transitividades:
+|En VENTA_2FN: ID_VENTA -> CLIENTE y ID_VENTA -> METODO_PAGO. Se desacoplan las entidades CLIENTE y METODO_DE_PAGO.
+|En PRODUCTO_2FN: ID_PRODUCTO -> ALMACEN. Se desacopla la entidad ALMACEN; PRODUCTO conserva ID_ALMACEN como clave foránea.
 
-### Entidades y Atributos
+**🗄️ Entidades Resultantes en 3FN**
 
-* **`CLIENTE`**
-  * `ID_CLIENTE` (PK)
-  * `NOMBRE`
-* **`ALMACEN`**
-  * `ID_ALMACEN` (PK)
-  * `NOMBRE_ALMACEN`
-* **`METODO_DE_PAGO`**
-  * `ID_METODO` (PK)
-  * `DESCRIPCION`
-* **`VENTA`**
-  * `ID_VENTA` (PK)
-  * `FECHA_HORA`
-  * `MONTO_TOTAL` (derivado: suma de los `SUBTOTAL` de la venta)
-  * `ID_CLIENTE` (FK → `CLIENTE`)
-  * `ID_METODO` (FK → `METODO_DE_PAGO`)
-* **`DETALLE_VENTA`**
-  * `ID_DETALLE` (PK)
-  * `ID_VENTA` (FK → `VENTA`)
-  * `ID_PRODUCTO` (FK → `PRODUCTO`)
-  * `CANTIDAD`
-  * `PRECIO_UNITARIO`
-  * `SUBTOTAL` (derivado: `CANTIDAD` × `PRECIO_UNITARIO`)
-  * Restricción: `UNIQUE (ID_VENTA, ID_PRODUCTO)`, para que un producto no se repita como renglón dentro de la misma venta (equivale a la clave compuesta definida en 1FN).
-* **`PRODUCTO`**
-  * `ID_PRODUCTO` (PK)
-  * `ID_ALMACEN` (FK → `ALMACEN`)
-  * `NOMBRE`
-  * `MARCA`
-  * `CATEGORIA`
-  * `PRECIO_VENTA`
-  * `PRECIO_COMPRA`
-  * `STOCK_ESTANTE`
-  * `STOCK_ALMACEN`
-  * `STOCK_MIN`
+<img width="691" height="543" alt="image" src="https://github.com/user-attachments/assets/58d8e070-3ab7-463c-9e13-f5c43ebc0b47" />
 
-### Cardinalidades Justificadas
-* **`CLIENTE` (1..1) — `REALIZA` — (1..N) `VENTA`:** Un cliente efectúa una o más ventas; cada registro de venta pertenece a un único cliente.
-* **`METODO_DE_PAGO` (1..1) — `TIENE` — (1..N) `VENTA`:** Un método de pago puede asociarse a múltiples ventas; cada venta asigna un único método.
-* **`ALMACEN` (1..1) — `GUARDA` — (1..N) `PRODUCTO`:** Un almacén custodia múltiples productos; cada producto está asignado a un almacén.
-* **`VENTA` (1..1) — `POSEE` — (1..N) `DETALLE_VENTA`:** Una venta se compone de uno o varios renglones/detalles de venta.
-* **`PRODUCTO` (1..1) — `INCLUYE` — (1..N) `DETALLE_VENTA`:** Un producto puede ser vendido en uno o muchos detalles de venta.
 
----
+**📌 Justificación Técnica de Desnormalización**
+La presencia del campo PRECIO_UNITARIO en la entidad DETALLE_VENTA responde a un criterio de desnormalización consciente para el mantenimiento de datos históricos. Almacenar este valor en el detalle evita la pérdida o alteración de montos en transacciones pasadas en caso de que el PRECIO_VENTA sufra modificaciones futuras en el catálogo de la tabla PRODUCTO.
 
-## ⚙️ Reglas de Negocio Implementadas
+**📌 Otros Atributos Derivados Conservados**
+SUBTOTAL (CANTIDAD × PRECIO_UNITARIO) en DETALLE_VENTA y MONTO_TOTAL (suma de subtotales) en VENTA son atributos calculables, por lo que técnicamente son redundantes. Se conservan de forma consciente para agilizar el reporte de cierre del día (total vendido, efectivo vs QR) y se mantienen consistentes al momento de registrar cada venta.
 
-1. **Validación de Unidades:** La cantidad ingresada en `DETALLE_VENTA` se valida contra el saldo de `STOCK_ESTANTE`.
-2. **Deducción Automática:** Cada registro en `DETALLE_VENTA` decrementa automáticamente la existencia en `STOCK_ESTANTE`.
-3. **Alerta de Reabastecimiento:** Si `STOCK_ESTANTE` $\le$ `STOCK_MIN`, el sistema notifica la necesidad de reponer el estante. Si `STOCK_ALMACEN` tiene unidades, se sugiere una transferencia del almacén al estante; si `STOCK_ESTANTE + STOCK_ALMACEN` $\le$ `STOCK_MIN`, el producto se incluye en la lista de compras mayoristas.
-
----
+**📌 Clave de DETALLE_VENTA**
+En 1FN la clave era compuesta (ID_VENTA, ID_PRODUCTO). En el modelo final se usa ID_DETALLE como clave primaria sustituta y se conserva la restricción UNIQUE (ID_VENTA, ID_PRODUCTO), de modo que un producto no se repita en la misma venta. Las dependencias funcionales de la 2FN no cambian.
