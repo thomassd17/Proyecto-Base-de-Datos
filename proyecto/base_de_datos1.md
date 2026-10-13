@@ -12,6 +12,9 @@
 2. Se diferencian los atributos `STOCK ESTANTE` (exhibición para venta rápida) y `STOCK ALMACEN` (depósito de reserva) vinculados a la entidad `ALMACEN`.
 3. Una venta puede contener varios productos y un producto puede comercializarse en múltiples ventas (relación N:M resolviéndose mediante la entidad intermedia `DETALLE VENTA`).
 4. Los precios de venta unitarios se fijan en el momento del registro en `DETALLE VENTA` para mantener el historial ante variaciones futuras de precios.
+5. Como cada venta exige un cliente (cardinalidad 1..1), se registra un cliente genérico `CLIENTE MOSTRADOR` para las ventas en las que la persona no desea dar sus datos.
+6. `STOCK ALMACEN` se guarda dentro de `PRODUCTO`, por lo que cada producto se custodia en un único almacén (`ID ALMACEN`). Si en el futuro hubiera varios depósitos con el mismo producto, se crearía una tabla `INVENTARIO (ID PRODUCTO, ID ALMACEN, STOCK)`.
+7. `SUBTOTAL` (`CANTIDAD` × `PRECIO UNITARIO`) y `MONTO_TOTAL` (suma de subtotales) son atributos derivados que se conservan por practicidad en los reportes de cierre del día; el sistema debe mantenerlos consistentes.
 
 ---
 
@@ -32,7 +35,7 @@
 * **VENTA**
   * `ID VENTA` (PK)
   * `FECHA_HORA`
-  * `MONTO_TOTAL`
+  * `MONTO_TOTAL` (derivado: suma de los `SUBTOTAL` de la venta)
   * `ID CLIENTE` (FK → CLIENTE)
   * `ID METODO` (FK → METODO_DE_PAGO)
 
@@ -42,10 +45,12 @@
   * `ID PRODUCTO` (FK → PRODUCTO)
   * `CANTIDAD`
   * `PRECIO UNITARIO`
-  * `SUBTOTAL`
+  * `SUBTOTAL` (derivado: `CANTIDAD` × `PRECIO UNITARIO`)
+  * Restricción: `UNIQUE (ID VENTA, ID PRODUCTO)` (equivale a la clave compuesta definida en 1FN)
 
 * **PRODUCTO**
   * `ID PRODUCTO` (PK)
+  * `ID ALMACEN` (FK → ALMACEN)
   * `NOMBRE`
   * `MARCA`
   * `CATEGORIA`
@@ -79,7 +84,7 @@
 **Restricciones de negocio importantes:**
 1. **Validación de stock disponible:** Al registrar un ítem en `DETALLE VENTA`, se debe verificar que la `CANTIDAD` solicitada sea menor o igual al `STOCK ESTANTE` actual del `PRODUCTO`.
 2. **Actualización automática de inventario:** Toda inserción en `DETALLE VENTA` descontará automáticamente las unidades del valor de `STOCK ESTANTE` en `PRODUCTO`.
-3. **Alerta de reabastecimiento:** Si `STOCK ESTANTE` es menor o igual a `STOCK MIN`, el producto debe ser notificado para reposición desde el `STOCK ALMACEN` o compra mayorista.
+3. **Alerta de reabastecimiento:** Si `STOCK ESTANTE` es menor o igual a `STOCK MIN`, se notifica la necesidad de reponer el estante. Si `STOCK ALMACEN` tiene unidades, se sugiere transferirlas al estante; si `STOCK ESTANTE + STOCK ALMACEN` es menor o igual a `STOCK MIN`, el producto se incluye en la lista de compras mayoristas.
 
 ---
 
