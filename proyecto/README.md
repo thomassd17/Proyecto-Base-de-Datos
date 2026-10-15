@@ -42,7 +42,6 @@ Entidades, atributos, claves primarias (PK), claves foráneas (FK) y cardinalida
 
 <img width="797" height="1097" alt="image" src="https://github.com/user-attachments/assets/3c11be2e-2839-4ea5-b3e6-ffacd5cfa08d" />
 
-
 ---
 
 ## 🧩 Diagrama de Clases (UML)
@@ -81,10 +80,37 @@ El proceso completo (0FN → 1FN → 2FN → 3FN), con tablas de ejemplo y la ju
 
 ---
 
+## 💾 Implementación en SQL (SQLite) — Hito Unidad IV
+
+| Archivo | Contenido |
+|---|---|
+| `sql/01_ddl.sql` | Tablas con `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, `UNIQUE`; índices; triggers de las reglas de negocio. |
+| `sql/02_datos.sql` | Datos de prueba coherentes con las tablas de normalización (6 productos, 3 clientes, 5 ventas). |
+| `sql/03_vistas.sql` | `V_DETALLE_VENTAS`, `V_CIERRE_DIARIO`, `V_PRODUCTOS_MAS_VENDIDOS`, `V_ALERTA_REABASTECIMIENTO`. |
+| `sql/04_consultas.sql` | 10 consultas (JOIN, LEFT JOIN, GROUP BY, CTE, funciones de ventana, `NOT EXISTS`, `EXPLAIN QUERY PLAN`) con resultado esperado. |
+| `tienda.py` | Crea la BD desde cero, registra ventas con **transacciones** y consultas **parametrizadas** (sin SQL injection) y verifica los resultados. |
+
+**Ejecución** (requiere Python 3 y SQLite 3.31 o superior):
+
+```bash
+python3 tienda.py
+```
+
+El script borra y vuelve a crear `tienda.db`, ejecuta los scripts en orden y muestra el resultado de las verificaciones (integridad, stock, montos, cierre del día, alertas, rollback ante stock insuficiente e intento de inyección SQL).
+
+También se puede usar solo SQL: `sqlite3 tienda.db < sql/01_ddl.sql`, y luego `02_datos.sql`, `03_vistas.sql` y `04_consultas.sql`.
+
+**Cómo se implementan las reglas de negocio:**
+* **Validación de stock:** trigger `trg_detalle_valida_stock` rechaza la venta si `cantidad > stock_estante`.
+* **Descuento automático:** trigger `trg_detalle_descuenta_stock`.
+* **Atributos derivados:** `SUBTOTAL` es una columna generada (`cantidad * precio_unitario`) y `MONTO_TOTAL` lo mantienen los triggers `trg_monto_total_*`.
+* **Alerta de reabastecimiento:** vista `V_ALERTA_REABASTECIMIENTO`.
+
+---
+
 ## ⚙️ Reglas de Negocio Implementadas
 
 1. **Validación de unidades:** La cantidad ingresada en `DETALLE_VENTA` se valida contra el saldo de `STOCK_ESTANTE`.
 2. **Deducción automática:** Cada registro en `DETALLE_VENTA` decrementa automáticamente la existencia en `STOCK_ESTANTE`.
 3. **Alerta de reabastecimiento:** Si `STOCK_ESTANTE` $\le$ `STOCK_MIN`, el sistema notifica la necesidad de reponer el estante. Si `STOCK_ALMACEN` tiene unidades, se sugiere una transferencia del almacén al estante; si `STOCK_ESTANTE + STOCK_ALMACEN` $\le$ `STOCK_MIN`, el producto se incluye en la lista de compras mayoristas.
 4. **Cierre del día:** El sistema permite consultar el total vendido, el total cobrado en efectivo, el total cobrado por QR y los productos con mayor salida.
-
