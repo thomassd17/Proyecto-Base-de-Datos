@@ -15,6 +15,7 @@
 5. Como cada venta exige un cliente (cardinalidad 1..1), se registra un cliente genérico `CLIENTE MOSTRADOR` para las ventas en las que la persona no desea dar sus datos.
 6. `STOCK ALMACEN` se guarda dentro de `PRODUCTO`, por lo que cada producto se custodia en un único almacén (`ID ALMACEN`). Si en el futuro hubiera varios depósitos con el mismo producto, se crearía una tabla `INVENTARIO (ID PRODUCTO, ID ALMACEN, STOCK)`.
 7. `SUBTOTAL` (`CANTIDAD` × `PRECIO UNITARIO`) y `MONTO_TOTAL` (suma de subtotales) son atributos derivados que se conservan por practicidad en los reportes de cierre del día; el sistema debe mantenerlos consistentes.
+8. Los identificadores son códigos de texto (por ejemplo `CLI01`, `M01`, `A01`, `P10`, `V001`, `D01`).
 
 ---
 
@@ -23,10 +24,12 @@
 * **CLIENTE**
   * `ID CLIENTE` (PK)
   * `NOMBRE`
+  * `TELEFONO`
 
 * **ALMACEN**
   * `ID ALMACEN` (PK)
   * `NOMBRE ALMACEN`
+  * `UBICACION`
 
 * **METODO_DE_PAGO**
   * `ID METODO` (PK)
@@ -64,20 +67,20 @@
 
 **Relaciones y cardinalidades (justificación):**
 
-* **CLIENTE (1..1) — REALIZA — (1..N) VENTA**
-  * Un cliente realiza una o varias ventas en el sistema; cada venta es efectuada obligatoriamente por un único cliente.
+* **CLIENTE (0..N) — REALIZA — (1..1) VENTA**
+  * Un cliente puede realizar varias ventas (o ninguna todavía); cada venta es efectuada por un único cliente.
 
-* **METODO_DE_PAGO (1..1) — TIENE — (1..N) VENTA**
-  * Un método de pago puede utilizarse en una o muchas ventas; cada venta requiere obligatoriamente un único método de pago.
+* **METODO_DE_PAGO (0..N) — SE_APLICA_EN — (1..1) VENTA**
+  * Un método de pago puede utilizarse en muchas ventas; cada venta requiere un único método de pago.
 
-* **ALMACEN (1..1) — GUARDA — (1..N) PRODUCTO**
-  * Un almacén/depósito guarda o custodia uno o muchos productos; cada producto pertenece al registro de un almacén.
+* **ALMACEN (0..N) — GUARDA — (1..1) PRODUCTO**
+  * Un almacén/depósito guarda uno o muchos productos (o ninguno todavía); cada producto pertenece a un único almacén.
 
 * **VENTA (1..1) — POSEE — (1..N) DETALLE VENTA**
   * Una venta posee uno o varios detalles de venta; cada detalle pertenece a una única venta.
 
-* **PRODUCTO (1..1) — INCLUYE — (1..N) DETALLE VENTA**
-  * Un producto puede ser incluido en uno o varios detalles de venta; cada detalle corresponde a un único producto.
+* **PRODUCTO (1..1) — INCLUYE — (0..N) DETALLE VENTA**
+  * Un producto puede ser incluido en muchos detalles de venta (o en ninguno si aún no se vendió); cada detalle corresponde a un único producto.
 
 ---
 
@@ -88,11 +91,14 @@
 
 ---
 
-**Representación para DER:**
-* **Entidades (Rectángulos):** `CLIENTE`, `ALMACEN`, `METODO_DE_PAGO`, `VENTA`, `DETALLE VENTA`, `PRODUCTO`.
-* **Relaciones (Rombos):** `REALIZA`, `GUARDA`, `TIENE`, `POSEE`, `INCLUYE`.
-* **Atributos (Elipses):** Representan los campos de cada entidad, destacando los identificadores clave PK (subrayados) y las FK para asegurar la trazabilidad.
+**Diagrama Entidad-Relación (DER):**
 
-<img width="1256" height="659" alt="image" src="https://github.com/user-attachments/assets/b4fd2dca-d6e6-4651-bac8-753d9329d78d" />
+Cada entidad se muestra con sus atributos; `PK` indica clave primaria y `FK` clave foránea. Las cardinalidades se leen en notación de "pata de gallo".
+
+
+
+**Diagrama de clases (UML):**
+
+
 
 
