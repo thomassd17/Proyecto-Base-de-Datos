@@ -4,12 +4,14 @@
 **0FN (Forma No Normalizada) :**
 Estado inicial correspondiente al registro manual en cuaderno borrador. Los productos vendidos en una misma transacción se encuentran agrupados en una sola celda como un atributo multivaluado.
 
-<img width="652" height="163" alt="image" src="https://github.com/user-attachments/assets/f2e0d622-a02f-4d33-a6a0-5107d9579b96" />
+<img width="1065" height="205" alt="image" src="https://github.com/user-attachments/assets/5f884486-ac68-4d0f-b467-72d579a3e5e2" />
+
 
 **1FN (Primera Forma Normal) :**
  |Regla: Se eliminan los grupos repetitivos garantizando valores atómicos por celda y se define una clave primaria compuesta (ID_VENTA, ID_PRODUCTO).
 
-<img width="834" height="177" alt="image" src="https://github.com/user-attachments/assets/32108de9-cff2-496b-967a-f485d032e0b2" />
+<img width="1065" height="175" alt="image" src="https://github.com/user-attachments/assets/9eaa5eee-fc6e-4bf5-ad18-bf6abccf518f" />
+
 
 **2FN (Segunda Forma Normal) :**
 |Regla: Estar en 1FN y eliminar dependencias parciales. Todos los atributos no clave deben depender de la totalidad de la clave primaria (ID_VENTA, ID_PRODUCTO).
@@ -22,27 +24,46 @@ Estado inicial correspondiente al registro manual en cuaderno borrador. Los prod
 **Estructura Tabular en 2FN :**
 Tabla VENTA_2FN
 
-<img width="596" height="163" alt="image" src="https://github.com/user-attachments/assets/f625fe71-4551-4fde-9b19-1f0113e06d45" />
+<img width="761" height="175" alt="image" src="https://github.com/user-attachments/assets/b21f5628-1c56-4f19-ad4f-e6a30e5ef9fc" />
 
 **Tabla PRODUCTO_2FN**
 
-<img width="715" height="177" alt="image" src="https://github.com/user-attachments/assets/a1aa5712-5332-4846-a1ef-6a72d3f36ca6" />
+<img width="913" height="201" alt="image" src="https://github.com/user-attachments/assets/18ec277b-1d34-4e10-96db-cc8b7a271cfa" />
 
 **Tabla DETALLE_VENTA_2FN**
 
-<img width="715" height="254" alt="image" src="https://github.com/user-attachments/assets/2e864dbe-f11b-46c3-bb15-51602cf725b3" />
+<img width="913" height="201" alt="image" src="https://github.com/user-attachments/assets/57365c01-5aed-44ec-acee-47d89438cdc5" />
 
 **3FN (Tercera Forma Normal)**
-|Regla: Estar en 2FN y eliminar dependencias transitivas entre atributos no clave.
+**Regla aplicada:** Estar en 1FN y eliminar dependencias parciales trasladando los atributos que dependen únicamente de una parte de la clave compuesta a tablas independientes.
 
-Eliminación de Transitividades:
-|En VENTA_2FN: ID_VENTA -> CLIENTE y ID_VENTA -> METODO_PAGO. Se desacoplan las entidades CLIENTE y METODO_DE_PAGO.
-|En PRODUCTO_2FN: ID_PRODUCTO -> ALMACEN. Se desacopla la entidad ALMACEN; PRODUCTO conserva ID_ALMACEN como clave foránea.
+**Tabla CLIENTE**
 
-**🗄️ Entidades Resultantes en 3FN**
+<img width="457" height="163" alt="image" src="https://github.com/user-attachments/assets/a2749c48-9816-452f-8887-da2ccff819e0" />
 
-<img width="691" height="543" alt="image" src="https://github.com/user-attachments/assets/58d8e070-3ab7-463c-9e13-f5c43ebc0b47" />
+**Tabla METODO_DE_PAGO**
 
+ID_METODO (PK)	DESCRIPCION
+
+<img width="305" height="163" alt="image" src="https://github.com/user-attachments/assets/4586824f-aa40-4875-8fcb-810dc14ac584" />
+
+**Tabla ALMACEN**
+
+<img width="457" height="121" alt="image" src="https://github.com/user-attachments/assets/ae655051-31a2-4be9-b435-beb3ae50fa6a" />
+
+**Tabla PRODUCTO**
+
+<img width="1412" height="201" alt="image" src="https://github.com/user-attachments/assets/376810a4-926a-42c2-a639-8236d9d26c31" />
+
+**Tabla VENTA**
+
+<img width="683" height="163" alt="image" src="https://github.com/user-attachments/assets/3ec3bd10-12e4-4268-b45a-02e25128010c" />
+
+**Tabla DETALLE_VENTA**
+
+<img width="835" height="201" alt="image" src="https://github.com/user-attachments/assets/d4d03f1a-94cf-45e6-967c-68fd5f7c7d23" />
+
+**Regla aplicada:** Estar en 2FN y eliminar dependencias transitivas, desacoplando los atributos no clave dependientes de otros atributos no clave en tablas maestras independientes (CLIENTE, METODO_DE_PAGO, ALMACEN) y vinculándolas mediante claves foráneas (FK).
 
 **📌 Justificación Técnica de Desnormalización**
 La presencia del campo PRECIO_UNITARIO en la entidad DETALLE_VENTA responde a un criterio de desnormalización consciente para el mantenimiento de datos históricos. Almacenar este valor en el detalle evita la pérdida o alteración de montos en transacciones pasadas en caso de que el PRECIO_VENTA sufra modificaciones futuras en el catálogo de la tabla PRODUCTO.
@@ -53,6 +74,4 @@ SUBTOTAL (CANTIDAD × PRECIO_UNITARIO) en DETALLE_VENTA y MONTO_TOTAL (suma de s
 **📌 Clave de DETALLE_VENTA**
 En 1FN la clave era compuesta (ID_VENTA, ID_PRODUCTO). En el modelo final se usa ID_DETALLE como clave primaria sustituta y se conserva la restricción UNIQUE (ID_VENTA, ID_PRODUCTO), de modo que un producto no se repita en la misma venta. Las dependencias funcionales de la 2FN no cambian.
 
-ID_VENTA,FECHA_HORA,CLIENTE,METODO_PAGO,ALMACEN,PRODUCTOS (Atributo Multivaluado),TOTAL
-V001,10/04/2026 10:30,Juan Pérez,Efectivo,Depósito principal,"Cuaderno (x2, 15.00 Bs), Bolígrafo (x5, 2.00 Bs)",40.00 Bs
-V002,10/04/2026 10:40,María Añez,QR,Depósito principal,"Borrador (x1, 3.00 Bs)",3.00 Bs
+
