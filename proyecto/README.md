@@ -42,7 +42,6 @@ Entidades, atributos, claves primarias (PK), claves foráneas (FK) y cardinalida
 
 <img width="797" height="1097" alt="image" src="https://github.com/user-attachments/assets/3c11be2e-2839-4ea5-b3e6-ffacd5cfa08d" />
 
-> 📌 *Versión en imagen del DER:* se puede colocar aquí el diagrama exportado desde draw.io.
 
 ---
 
