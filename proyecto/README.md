@@ -40,56 +40,7 @@ Sistema de control de inventario y registro de ventas enfocado en comercios mino
 
 Entidades, atributos, claves primarias (PK), claves foráneas (FK) y cardinalidades del sistema:
 
-```mermaid
-erDiagram
-    CLIENTE ||--o{ VENTA : realiza
-    METODO_DE_PAGO ||--o{ VENTA : se_aplica_en
-    ALMACEN ||--o{ PRODUCTO : guarda
-    VENTA ||--|{ DETALLE_VENTA : posee
-    PRODUCTO ||--o{ DETALLE_VENTA : incluye
-
-    CLIENTE {
-        string ID_CLIENTE PK
-        string NOMBRE
-        string TELEFONO
-    }
-    METODO_DE_PAGO {
-        string ID_METODO PK
-        string DESCRIPCION
-    }
-    ALMACEN {
-        string ID_ALMACEN PK
-        string NOMBRE_ALMACEN
-        string UBICACION
-    }
-    PRODUCTO {
-        string ID_PRODUCTO PK
-        string ID_ALMACEN FK
-        string NOMBRE
-        string MARCA
-        string CATEGORIA
-        decimal PRECIO_COMPRA
-        decimal PRECIO_VENTA
-        int STOCK_ESTANTE
-        int STOCK_ALMACEN
-        int STOCK_MIN
-    }
-    VENTA {
-        string ID_VENTA PK
-        string ID_CLIENTE FK
-        string ID_METODO FK
-        datetime FECHA_HORA
-        decimal MONTO_TOTAL "derivado"
-    }
-    DETALLE_VENTA {
-        string ID_DETALLE PK
-        string ID_VENTA FK
-        string ID_PRODUCTO FK
-        int CANTIDAD
-        decimal PRECIO_UNITARIO
-        decimal SUBTOTAL "derivado"
-    }
-```
+<img width="797" height="1097" alt="image" src="https://github.com/user-attachments/assets/3c11be2e-2839-4ea5-b3e6-ffacd5cfa08d" />
 
 > 📌 *Versión en imagen del DER:* se puede colocar aquí el diagrama exportado desde draw.io.
 
@@ -97,66 +48,7 @@ erDiagram
 
 ## 🧩 Diagrama de Clases (UML)
 
-```mermaid
-classDiagram
-    direction TB
-
-    class Almacen {
-        +String idAlmacen
-        +String nombreAlmacen
-        +String ubicacion
-        +guardarProducto()
-    }
-    class Cliente {
-        +String idCliente
-        +String nombre
-        +String telefono
-        +realizarVenta()
-    }
-    class MetodoPago {
-        +String idMetodo
-        +String descripcion
-    }
-    class Producto {
-        +String idProducto
-        +String nombre
-        +String marca
-        +String categoria
-        +Decimal precioVenta
-        +Decimal precioCompra
-        +int stockEstante
-        +int stockAlmacen
-        +int stockMin
-        +String idAlmacen
-        +descontarStockEstante(int cantidad)
-        +verificarAlertaStock() bool
-    }
-    class Venta {
-        +String idVenta
-        +DateTime fechaHora
-        +Decimal montoTotal
-        +String idCliente
-        +String idMetodo
-        +calcularMontoTotal()
-    }
-    class DetalleVenta {
-        +String idDetalle
-        +String idVenta
-        +String idProducto
-        +int cantidad
-        +Decimal precioUnitario
-        +Decimal subtotal
-        +calcularSubtotal()
-    }
-
-    Almacen "1" --> "0..*" Producto : Guarda
-    Cliente "1" --> "0..*" Venta : Realiza
-    MetodoPago "1" --> "0..*" Venta : Se aplica en
-    Venta "1" *-- "1..*" DetalleVenta : Posee
-    Producto "1" --> "0..*" DetalleVenta : Incluido en
-
-    note for DetalleVenta "subtotal y montoTotal son derivados. UNIQUE (idVenta, idProducto)"
-```
+<img width="838" height="1021" alt="image" src="https://github.com/user-attachments/assets/0cb96d50-7474-43c0-b805-14e2174d52ca" />
 
 ---
 
