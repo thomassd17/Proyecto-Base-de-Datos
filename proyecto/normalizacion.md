@@ -10,8 +10,7 @@ Estado inicial correspondiente al registro manual en cuaderno borrador. Los prod
 **1FN (Primera Forma Normal) :**
  |Regla: Se eliminan los grupos repetitivos garantizando valores atómicos por celda y se define una clave primaria compuesta (ID_VENTA, ID_PRODUCTO).
 
-<img width="1065" height="175" alt="image" src="https://github.com/user-attachments/assets/9eaa5eee-fc6e-4bf5-ad18-bf6abccf518f" />
-
+<img width="1523" height="201" alt="image" src="https://github.com/user-attachments/assets/1ca68578-1fe6-4727-8ac4-adf58defcb40" />
 
 **2FN (Segunda Forma Normal) :**
 |Regla: Estar en 1FN y eliminar dependencias parciales. Todos los atributos no clave deben depender de la totalidad de la clave primaria (ID_VENTA, ID_PRODUCTO).
