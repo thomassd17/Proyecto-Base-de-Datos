@@ -31,7 +31,7 @@ Sistema de control de inventario y registro de ventas enfocado en comercios mino
 
 El siguiente diagrama representa las entidades, atributos principales, claves foráneas (FK) y cardinalidades del sistema:
 
-![Diagrama Entidad Relación](https://github.com/user-attachments/assets/2cd3d356-e048-4f07-801c-ed5c7a30068d)
+<img width="1256" height="659" alt="image" src="https://github.com/user-attachments/assets/ee3bee77-7069-4abb-b018-730ab0e5a4d7" />
 
 ---
 
