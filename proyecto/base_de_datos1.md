@@ -95,10 +95,9 @@
 
 Cada entidad se muestra con sus atributos; `PK` indica clave primaria y `FK` clave foránea. Las cardinalidades se leen en notación de "pata de gallo".
 
-
+<img width="797" height="1097" alt="image" src="https://github.com/user-attachments/assets/3c11be2e-2839-4ea5-b3e6-ffacd5cfa08d" />
 
 **Diagrama de clases (UML):**
 
-
-
+<img width="838" height="1021" alt="image" src="https://github.com/user-attachments/assets/0cb96d50-7474-43c0-b805-14e2174d52ca" />
 
