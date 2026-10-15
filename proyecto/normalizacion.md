@@ -8,17 +8,19 @@ Estado inicial correspondiente al registro manual en cuaderno borrador. Los prod
 
 
 **1FN (Primera Forma Normal) :**
- |Regla: Se eliminan los grupos repetitivos garantizando valores atómicos por celda y se define una clave primaria compuesta (ID_VENTA, ID_PRODUCTO).
+**Regla:** Se eliminan los grupos repetitivos garantizando valores atómicos por celda y se define una clave primaria compuesta (ID_VENTA, ID_PRODUCTO). Hay una fila por cada producto vendido.
 
 <img width="1523" height="201" alt="image" src="https://github.com/user-attachments/assets/1ca68578-1fe6-4727-8ac4-adf58defcb40" />
 
 **2FN (Segunda Forma Normal) :**
-|Regla: Estar en 1FN y eliminar dependencias parciales. Todos los atributos no clave deben depender de la totalidad de la clave primaria (ID_VENTA, ID_PRODUCTO).
+**Regla:** Estar en 1FN y eliminar dependencias parciales. Todos los atributos no clave deben depender de la totalidad de la clave primaria (ID_VENTA, ID_PRODUCTO).
 
 **Dependencias Funcionales Evaluadas :**
-1.ID_VENTA -> FECHA_HORA, CLIENTE, METODO_PAGO, MONTO_TOTAL
-2.ID_PRODUCTO -> NOMBRE_PRODUCTO, ALMACEN
-3.(ID_VENTA, ID_PRODUCTO) -> CANTIDAD, PRECIO_UNITARIO, SUBTOTAL
+1. ID_VENTA -> FECHA_HORA, CLIENTE, METODO_PAGO, MONTO_TOTAL *(dependencia parcial: depende solo de la venta)*
+2. ID_PRODUCTO -> NOMBRE_PRODUCTO, ALMACEN, PRECIO_VENTA, STOCK_ESTANTE, STOCK_ALMACEN *(dependencia parcial: depende solo del producto)*
+3. (ID_VENTA, ID_PRODUCTO) -> CANTIDAD, PRECIO_UNITARIO, SUBTOTAL *(depende de la clave completa)*
+
+Para el detalle se usa ID_DETALLE como clave primaria sustituta y se conserva la restricción UNIQUE (ID_VENTA, ID_PRODUCTO), de modo que un producto no se repita en la misma venta. Las dependencias anteriores no cambian.
 
 **Estructura Tabular en 2FN :**
 Tabla VENTA_2FN
@@ -34,15 +36,19 @@ Tabla VENTA_2FN
 <img width="913" height="201" alt="image" src="https://github.com/user-attachments/assets/57365c01-5aed-44ec-acee-47d89438cdc5" />
 
 **3FN (Tercera Forma Normal)**
-**Regla aplicada:** Estar en 1FN y eliminar dependencias parciales trasladando los atributos que dependen únicamente de una parte de la clave compuesta a tablas independientes.
+**Regla:** Estar en 2FN y eliminar dependencias transitivas entre atributos no clave, desacoplando los atributos que dependen de otros atributos no clave en tablas maestras independientes y vinculándolas mediante claves foráneas (FK).
+
+**Eliminación de transitividades:**
+* En VENTA_2FN: ID_VENTA -> CLIENTE y ID_VENTA -> METODO_PAGO. Se desacoplan las entidades CLIENTE y METODO_DE_PAGO.
+* En PRODUCTO_2FN: ID_PRODUCTO -> ALMACEN. Se desacopla la entidad ALMACEN; PRODUCTO conserva ID_ALMACEN como clave foránea.
+
+**Entidades resultantes en 3FN :**
 
 **Tabla CLIENTE**
 
 <img width="457" height="163" alt="image" src="https://github.com/user-attachments/assets/a2749c48-9816-452f-8887-da2ccff819e0" />
 
 **Tabla METODO_DE_PAGO**
-
-ID_METODO (PK)	DESCRIPCION
 
 <img width="305" height="163" alt="image" src="https://github.com/user-attachments/assets/4586824f-aa40-4875-8fcb-810dc14ac584" />
 
@@ -62,15 +68,13 @@ ID_METODO (PK)	DESCRIPCION
 
 <img width="835" height="201" alt="image" src="https://github.com/user-attachments/assets/d4d03f1a-94cf-45e6-967c-68fd5f7c7d23" />
 
-**Regla aplicada:** Estar en 2FN y eliminar dependencias transitivas, desacoplando los atributos no clave dependientes de otros atributos no clave en tablas maestras independientes (CLIENTE, METODO_DE_PAGO, ALMACEN) y vinculándolas mediante claves foráneas (FK).
+**Resultado:** seis tablas en 3FN (CLIENTE, METODO_DE_PAGO, ALMACEN, PRODUCTO, VENTA y DETALLE_VENTA), relacionadas mediante claves foráneas. Las tablas muestran una muestra reducida de datos; los datos de prueba completos están en [`sql/02_datos.sql`](sql/02_datos.sql).
 
 **📌 Justificación Técnica de Desnormalización**
 La presencia del campo PRECIO_UNITARIO en la entidad DETALLE_VENTA responde a un criterio de desnormalización consciente para el mantenimiento de datos históricos. Almacenar este valor en el detalle evita la pérdida o alteración de montos en transacciones pasadas en caso de que el PRECIO_VENTA sufra modificaciones futuras en el catálogo de la tabla PRODUCTO.
 
 **📌 Otros Atributos Derivados Conservados**
-SUBTOTAL (CANTIDAD × PRECIO_UNITARIO) en DETALLE_VENTA y MONTO_TOTAL (suma de subtotales) en VENTA son atributos calculables, por lo que técnicamente son redundantes. Se conservan de forma consciente para agilizar el reporte de cierre del día (total vendido, efectivo vs QR) y se mantienen consistentes al momento de registrar cada venta.
+SUBTOTAL (CANTIDAD × PRECIO_UNITARIO) en DETALLE_VENTA y MONTO_TOTAL (suma de subtotales) en VENTA son atributos calculables, por lo que técnicamente son redundantes. Se conservan de forma consciente para agilizar el reporte de cierre del día (total vendido, efectivo vs QR) y se mantienen consistentes al momento de registrar cada venta (en la implementación SQL, SUBTOTAL es una columna generada y MONTO_TOTAL lo actualizan triggers).
 
 **📌 Clave de DETALLE_VENTA**
 En 1FN la clave era compuesta (ID_VENTA, ID_PRODUCTO). En el modelo final se usa ID_DETALLE como clave primaria sustituta y se conserva la restricción UNIQUE (ID_VENTA, ID_PRODUCTO), de modo que un producto no se repita en la misma venta. Las dependencias funcionales de la 2FN no cambian.
-
-
