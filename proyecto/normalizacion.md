@@ -78,3 +78,5 @@ SUBTOTAL (CANTIDAD × PRECIO_UNITARIO) en DETALLE_VENTA y MONTO_TOTAL (suma de s
 
 **📌 Clave de DETALLE_VENTA**
 En 1FN la clave era compuesta (ID_VENTA, ID_PRODUCTO). En el modelo final se usa ID_DETALLE como clave primaria sustituta y se conserva la restricción UNIQUE (ID_VENTA, ID_PRODUCTO), de modo que un producto no se repita en la misma venta. Las dependencias funcionales de la 2FN no cambian.
+
+<img width="838" height="1021" alt="image" src="https://github.com/user-attachments/assets/0cb96d50-7474-43c0-b805-14e2174d52ca" />
